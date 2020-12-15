@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import IntroContext from './context/IntroContext';
+import useIntroTransition from './context/useIntroTransition'
 
 import Login from './Login';
 import Register from './Register';
+
 
 const Background = styled.div`
     width: 100vw;
@@ -14,13 +17,14 @@ const Background = styled.div`
 `
 
 export const Modal: React.FC = () => {
+    const initialState = useIntroTransition();
     return (
-        <>
+        <IntroContext.Provider value={initialState}>
         <Background>
         <Login/>
         <Register/> 
         </Background>
-        </>
+        </IntroContext.Provider>
     )
 }
 

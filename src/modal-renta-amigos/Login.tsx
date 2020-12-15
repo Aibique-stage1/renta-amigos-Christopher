@@ -1,14 +1,32 @@
-import React from 'react';
-import {LoginModal, ModalContainer, InputBox, UnderBar,SideBar} from './styled'
+import React, {useContext} from 'react';
+import {ModalContainer, ModalLogin, InputBox, UnderBar,SideBar} from './styled';
+import IntroContext from './context/IntroContext';
 
-const handleSlideRegister = () => {
-    console.log('hello world')
+interface MoveObject {
+    login?: string | undefined;
+    register?: string | undefined;
 }
+interface StateObject {
+    move?: MoveObject; 
+}
+interface ModuleObject {
+    state?: StateObject;
+    slideToLeft?: ()=> void;
+    slideToRight?: () => void;
+}
+
 const Login = () => {
+    const {state, slideToLeft} = useContext<ModuleObject>(IntroContext);
+    const move = state?.move;
+    const handleSlideRegister = () => {
+        slideToLeft &&
+        slideToLeft();
+    }
     return(
         <>
-        <LoginModal>
-            <ModalContainer>
+        <ModalContainer style={{left: `${move?.login}`}}>
+            <span style={{position: 'absolute', top: '5px', right: '5px', cursor: 'pointer', fontSize: '16px', textDecoration: 'none', color: 'black', fontWeight: 'bold'}}>X</span>
+            <ModalLogin>
 
             <div className="inputs-container">
                 <InputBox>
@@ -26,9 +44,9 @@ const Login = () => {
                 <button className="google">Login with Google</button>
                 <button className="register" onClick={()=>handleSlideRegister()}>Sign Up!</button>
             </div>
-            </ModalContainer>
+            </ModalLogin>
 
-        </LoginModal>
+        </ModalContainer>
         </>
     )
 };
