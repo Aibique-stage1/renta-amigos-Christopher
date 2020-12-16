@@ -14,15 +14,40 @@ top: calc(50% - 300px);
 display: flex;
 justify-content: center;
 align-items: center;
-
+`;
+export const ButtonLogin = styled.button`
+position: absolute;
+width: 150px;
+height: 35px;
+border: none;
+left: calc(50% - 75px);
+text-align: center;
+margin-top: 10px;
+background-color: pink;
+cursor: pointer;
+`
+export const ButtonRegister = styled.button`
+position: absolute;
+width: 150px;
+height: 35px;
+border: none;
+left: calc(50% - 75px);
+text-align: center;
+margin-top: 10px;
+background-color: pink;
+cursor: pointer;
+`
+export const FormLogin = styled.form`
+    width: 100%;
+`;
+export const FormRegister = styled.form`
+    width: 100%;
 `
 export const ModalLogin = styled.div`
 width: 80%;
 height: 70%;
 /* background-color: silver; */
-.inputs-container{
-    width: 100%;
-}
+
 .username,
 .password{
     width: 100%;
@@ -70,7 +95,10 @@ p{
 }
 `
 
-export const InputBox = styled.div`
+export const InputBox = styled.label`
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
     position: relative;
     width:100%;
     height: max-content;
@@ -100,9 +128,6 @@ export const RegisterModal = styled.div`
 width: 80%;
 height: 70%;
 /* background-color: silver; */
-.inputs-container{
-    width: 100%;
-}
 .username,
 .password,
 .password2{

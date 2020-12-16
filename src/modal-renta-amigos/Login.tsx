@@ -1,5 +1,12 @@
 import React, {useContext} from 'react';
-import {ModalContainer, ModalLogin, InputBox, UnderBar,SideBar} from './styled';
+import useForm from './hooks/useForm';
+import validate from './validateInfo';
+import {ModalContainer, 
+    ModalLogin, InputBox, 
+    UnderBar,
+    SideBar, 
+    FormLogin,
+    ButtonLogin} from './styled';
 import IntroContext from './context/IntroContext';
 
 interface MoveObject {
@@ -18,6 +25,7 @@ interface ModuleObject {
 const Login = () => {
     const {state, slideToLeft} = useContext<ModuleObject>(IntroContext);
     const move = state?.move;
+    const {values, handleChange, handleSubmit, errors} = useForm(validate);
     const handleSlideRegister = () => {
         slideToLeft &&
         slideToLeft();
@@ -28,15 +36,32 @@ const Login = () => {
             <span style={{position: 'absolute', top: '5px', right: '5px', cursor: 'pointer', fontSize: '16px', textDecoration: 'none', color: 'black', fontWeight: 'bold'}}>X</span>
             <ModalLogin>
 
-            <div className="inputs-container">
+            <FormLogin onSubmit={handleSubmit}>
                 <InputBox>
-                <input className="username" type="text" name="username" placeholder="username"/><UnderBar/>
+                Username
+                <input value={values.username} onChange={(e) => handleChange(e)} className="username" type="text" name="username" placeholder="username"/>
+                {
+                    errors?.username &&
+                    <span style={{position: 'absolute'}}>{`${errors?.username}`}</span>
+                }
+                <UnderBar/>
                 </InputBox>
                 <InputBox>
-                <input className="password" type="password" name="userPassword" id="" placeholder="password"/><UnderBar/>
+                Password
+                <input value={values.password} onChange={(e) => handleChange(e)} className="password" type="password" name="password" id="" placeholder="password"/>
+                {
+                    errors?.password && 
+                    <span style={{position: 'absolute'}}>{`${errors?.password}`}</span>
+                }
+                <UnderBar/>
                 </InputBox>
-            </div>
+                {
+                    values.username !== '' &&
+                    <ButtonLogin type="submit">Login Now</ButtonLogin>
+                }
+            </FormLogin>
             { 
+            // When the data didn't match
                 <span>Forgot password?</span>
             }
             <p><SideBar/>or<SideBar style={{left: '55%'}}/></p>
