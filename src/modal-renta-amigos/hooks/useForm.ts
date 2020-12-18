@@ -27,16 +27,10 @@ const useForm = (validate:any) => {
     const validateData = async (username: string | undefined, password: string | undefined) => {
         try{
             const response =  await axios.get(baseUrl, {params: {username: username, password: md5(password)}});
-            const validation = validate(values)
-            if(validation === {}){
-                alert(validation)
-            }else{
-                alert(validation)
-            }
-            // response.data.length === 1
-            // // ? history.push('/')
-            // ? alert('push to home')
-            // : alert('The password or username were incorrect, try again!')
+            response.data.length === 1
+            // ? history.push('/')
+            ? alert('push to home')
+            : alert('The password or username were incorrect, try again!')
          }catch(err){
              console.log(err.message);
          }
@@ -65,12 +59,11 @@ const useForm = (validate:any) => {
 
     const handleLogin =  (e:React.FormEvent<HTMLFormElement> ):void=> {
         e.preventDefault();
-        setErrors(validate(values));
-        // validateData(values?.username, values?.password)
+        setErrors(validate(values, 'login'));
     }
     const handleRegister = (e:React.FormEvent<HTMLFormElement> ):void=> {
         e.preventDefault();
-        setErrors(validate(values));
+        setErrors(validate(values, 'register'));
         postData(values?.email, values?.password, values);
 
     }
@@ -80,6 +73,7 @@ const useForm = (validate:any) => {
         handleLogin,
         handleRegister,
         errors,
+        validateData,
     }
 }
 

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import useForm from './hooks/useForm';
 import validate from './validateInfo';
 import {ModalContainer, 
@@ -28,15 +28,16 @@ interface ModuleObject {
 const Login = () => {
     const {state, slideToLeft} = useContext<ModuleObject>(IntroContext);
     const move = state?.move;
-    const {values, handleChange, handleLogin, errors} = useForm(validate);
+    const {values, handleChange, handleLogin, errors, validateData} = useForm(validate);
     const handleSlideRegister = () => {
         slideToLeft &&
         slideToLeft();
     }
-    const handleSubmit = () => {
-
-        console.log(errors)
-    }
+    useEffect(() => {
+        errors 
+        ? console.log(errors)
+        : validateData(values?.username, values?.password)
+    }, [errors, validateData, values])
     return(
         <>
         <ModalContainer style={{left: `${move?.login}`}}>
