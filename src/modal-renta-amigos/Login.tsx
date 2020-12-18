@@ -28,10 +28,14 @@ interface ModuleObject {
 const Login = () => {
     const {state, slideToLeft} = useContext<ModuleObject>(IntroContext);
     const move = state?.move;
-    const {values, handleChange, handleSubmit, errors} = useForm(validate);
+    const {values, handleChange, handleLogin, errors} = useForm(validate);
     const handleSlideRegister = () => {
         slideToLeft &&
         slideToLeft();
+    }
+    const handleSubmit = () => {
+
+        console.log(errors)
     }
     return(
         <>
@@ -39,7 +43,7 @@ const Login = () => {
             <span style={{position: 'absolute', top: '5px', right: '5px', cursor: 'pointer', fontSize: '16px', textDecoration: 'none', color: 'black', fontWeight: 'bold'}}>X</span>
             <ModalLogin>
 
-            <FormLogin onSubmit={handleSubmit}>
+            <FormLogin onSubmit={handleLogin}>
                 <InputBox>
                 Username
                 <input value={values.username} onChange={(e) => handleChange(e)} className="username" type="text" name="username" placeholder="username"/>

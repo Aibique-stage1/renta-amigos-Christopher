@@ -28,6 +28,5 @@ export default function validateInfo(values: ValuesRegisterObject):any {
     } else if (values.secondPassword !== values.password){
         errors.secondPassword = "Password do not match"
     }
-
     return errors;
 }

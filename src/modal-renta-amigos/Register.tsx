@@ -28,7 +28,7 @@ interface ModuleObject {
 const Register = () => {  
     const {state, slideToRight} = useContext<ModuleObject>(IntroContext);
     const move = state?.move;
-    const {values, handleChange, handleSubmit, errors} = useForm(validate);
+    const {values, handleChange, handleRegister, errors} = useForm(validate);
 
     const handleSlideLogin = () => {
         slideToRight &&
@@ -39,7 +39,7 @@ const Register = () => {
         <ModalContainer style={{ left: `${move?.register}`}}>
         <span style={{position: 'absolute', top: '5px', right: '5px', cursor: 'pointer', fontSize: '16px', textDecoration: 'none', color: 'black', fontWeight: 'bold'}}>X</span>
         <RegisterModal>
-        <FormRegister onSubmit={handleSubmit}>
+        <FormRegister onSubmit={handleRegister}>
                 <InputBox>
                 Email
                 <input  value={values.email} onChange={(e) => handleChange(e)} className="username" type="text" name="email" placeholder="email"/>
