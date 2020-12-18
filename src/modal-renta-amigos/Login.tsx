@@ -23,14 +23,6 @@ interface ModuleObject {
     slideToRight?: () => void;
 }
 
-//-- useForm Type
-interface ValuesRegisterObject {
-    username?: string;
-    email?: string;
-    password?: string;
-    secondPassword?: string;
-}
-
 //-- Component
 
 const Login = () => {
