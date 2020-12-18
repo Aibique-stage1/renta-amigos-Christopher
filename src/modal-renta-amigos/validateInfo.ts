@@ -1,7 +1,13 @@
-export default function validateInfo(values) {
-    let errors = {};
+interface ValuesRegisterObject {
+    username?: string;
+    email?: string;
+    password?: string;
+    secondPassword?: string;
+}
+export default function validateInfo(values: ValuesRegisterObject):any {
+    let errors: ValuesRegisterObject = {};
 
-    if(!values.username.trim()){
+    if(!values?.username?.trim()){
         errors.username = "Username require"
     }
 

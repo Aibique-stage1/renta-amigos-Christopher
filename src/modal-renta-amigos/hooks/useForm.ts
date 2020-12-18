@@ -5,7 +5,7 @@ interface ValuesRegisterObject {
     password?: string;
     secondPassword?: string;
 }
-const useForm = (validate) => {
+const useForm = (validate:any) => {
     const [values, setValue] = useState<ValuesRegisterObject>({
         username: '',
         email: '',

@@ -9,6 +9,7 @@ import {ModalContainer,
     ButtonLogin} from './styled';
 import IntroContext from './context/IntroContext';
 
+//--Context Type
 interface MoveObject {
     login?: string | undefined;
     register?: string | undefined;
@@ -21,6 +22,16 @@ interface ModuleObject {
     slideToLeft?: ()=> void;
     slideToRight?: () => void;
 }
+
+//-- useForm Type
+interface ValuesRegisterObject {
+    username?: string;
+    email?: string;
+    password?: string;
+    secondPassword?: string;
+}
+
+//-- Component
 
 const Login = () => {
     const {state, slideToLeft} = useContext<ModuleObject>(IntroContext);
