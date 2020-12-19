@@ -24,9 +24,9 @@ const useForm = (validate:any) => {
         secondPassword: '', 
     });
 
-    const validateData = async (username: string | undefined, password: string | undefined) => {
+    const validateData = async () => {
         try{
-            const response =  await axios.get(baseUrl, {params: {username: username, password: md5(password)}});
+            const response =  await axios.get(baseUrl, {params: {username: `${values.username}`, password: md5(`${values.password}`)}});
             response.data.length === 1
             // ? history.push('/')
             ? alert('push to home')

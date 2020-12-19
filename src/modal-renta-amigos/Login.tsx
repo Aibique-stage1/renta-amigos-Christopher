@@ -34,10 +34,14 @@ const Login = () => {
         slideToLeft();
     }
     useEffect(() => {
-        errors 
-        ? console.log(errors)
-        : validateData(values?.username, values?.password)
-    }, [errors, validateData, values])
+        if(!errors){
+            console.log('It is undefined')
+        }else{
+            Object.keys(errors).length === 1
+            ? console.log('There is no errors')
+            : validateData()
+        }
+    }, [errors, validateData])
     return(
         <>
         <ModalContainer style={{left: `${move?.login}`}}>
