@@ -9,7 +9,7 @@ import {ModalContainer,
     ButtonLogin} from './styled';
 import IntroContext from './context/IntroContext';
 
-//--Context Type
+//--Type interfaces
 interface MoveObject {
     login?: string | undefined;
     register?: string | undefined;
@@ -23,16 +23,17 @@ interface ModuleObject {
     slideToRight?: () => void;
 }
 
-//-- Component
-
+//-- Component Login
 const Login = () => {
+    //-- Variables & hooks
     const {state, slideToLeft} = useContext<ModuleObject>(IntroContext);
     const move = state?.move;
     const {values, handleChange, handleLogin, errors, validateData} = useForm(validate);
-    const handleSlideRegister = () => {
-        slideToLeft &&
-        slideToLeft();
-    }
+    /* The problem is that this Effect will always get triggered after the inputs are changed, 
+    The check must to be triggered at the moment of click the button and then if there are no errors it
+    proceed to make the validation to the API */
+    /* Option can be that when click the button it checks if there is any errors, if there is it wont submit but
+    if there is no error it will submit */
     useEffect(() => {
         if(!errors){
             console.log('It is undefined')
@@ -42,13 +43,32 @@ const Login = () => {
             : validateData()
         }
     }, [errors, validateData])
+
+    //-- Functions
+    const handleSlideRegister = () => {
+        slideToLeft &&
+        slideToLeft();
+    }
+    const handleSubmit = (e:React.FormEvent<HTMLFormElement> ) => {
+        e.preventDefault();
+        if(!errors){
+            return handleLogin();
+        }
+        if(Object.keys(errors).length === 1){
+            return validateData()
+        }else{
+            return handleLogin();
+        }
+    }
+
+    //-- Render of the Component
     return(
         <>
         <ModalContainer style={{left: `${move?.login}`}}>
             <span style={{position: 'absolute', top: '5px', right: '5px', cursor: 'pointer', fontSize: '16px', textDecoration: 'none', color: 'black', fontWeight: 'bold'}}>X</span>
             <ModalLogin>
 
-            <FormLogin onSubmit={handleLogin}>
+            <FormLogin onSubmit={handleSubmit}>
                 <InputBox>
                 Username
                 <input value={values.username} onChange={(e) => handleChange(e)} className="username" type="text" name="username" placeholder="username"/>
