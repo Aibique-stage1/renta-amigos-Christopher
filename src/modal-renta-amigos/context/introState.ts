@@ -1,3 +1,4 @@
+//-- Main state of the transition Context
 const introState = {
     move:{
         login: 'calc(50% - 250px)',

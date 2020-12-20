@@ -1,6 +1,7 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import useForm from './hooks/useForm';
 import validate from './validateInfo';
+import {ModuleObject} from '../typed/app';
 import {ModalContainer, 
     ModalLogin, InputBox, 
     UnderBar,
@@ -9,42 +10,15 @@ import {ModalContainer,
     ButtonLogin} from './styled';
 import IntroContext from './context/IntroContext';
 
-//--Type interfaces
-interface MoveObject {
-    login?: string | undefined;
-    register?: string | undefined;
-}
-interface StateObject {
-    move?: MoveObject; 
-}
-interface ModuleObject {
-    state?: StateObject;
-    slideToLeft?: ()=> void;
-    slideToRight?: () => void;
-}
-
-//-- Component Login
+    //-- Component Login
 const Login = () => {
+
     //-- Variables & hooks
     const {state, slideToLeft} = useContext<ModuleObject>(IntroContext);
     const move = state?.move;
     const {values, handleChange, handleLogin, errors, validateData} = useForm(validate);
-    /* The problem is that this Effect will always get triggered after the inputs are changed, 
-    The check must to be triggered at the moment of click the button and then if there are no errors it
-    proceed to make the validation to the API */
-    /* Option can be that when click the button it checks if there is any errors, if there is it wont submit but
-    if there is no error it will submit */
-    useEffect(() => {
-        if(!errors){
-            console.log('It is undefined')
-        }else{
-            Object.keys(errors).length === 1
-            ? console.log('There is no errors')
-            : validateData()
-        }
-    }, [errors, validateData])
 
-    //-- Functions
+    //-- Functions handlers
     const handleSlideRegister = () => {
         slideToLeft &&
         slideToLeft();

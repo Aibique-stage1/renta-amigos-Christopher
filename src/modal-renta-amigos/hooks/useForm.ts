@@ -1,22 +1,16 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import axios from 'axios';
 import md5 from 'md5';
 import {useHistory} from 'react-router-dom';
-
-//-- Types
-interface ValuesRegisterObject {
-    username?: string ;
-    email?: string;
-    password?: string;
-    secondPassword?: string;
-}
+import { ValuesRegisterObject } from '../../typed/app';
 
 //-- Global variables
 const baseUrl = "http://localhost:3001/users"
 
-//-- useForm
+//-- UseForm Structure
 const useForm = (validate:any) => {
-    //-- Variables
+    
+    //-- Variables & hooks
     const history = useHistory();
     const [errors, setErrors] = useState<ValuesRegisterObject>();
     const [values, setValue] = useState<ValuesRegisterObject>({
@@ -31,29 +25,33 @@ const useForm = (validate:any) => {
         try{
             const response =  await axios.get(baseUrl, {params: {username: `${values.username}`, password: md5(`${values.password}`)}});
             response.data.length === 1
-            // ? history.push('/')
-            ? alert('push to home')
+            ? history.push('/')
             : alert('The password or username were incorrect, try again!')
          }catch(err){
              console.log(err.message);
          }
     }
+
     //-- Function to post the data to the API
-    const postData = async (email: string | undefined, password: string | undefined, values: ValuesRegisterObject | undefined) => {
+    const postData = async () => {
         try{
-            const response =  await axios.get(baseUrl, {params: {email: email, password: md5(password)}});
-            // console.log(response.data)
-            if(response.data.length === 1){
-                alert(`Sorry the email: ${email} was already used`)
-            }else{
-                await axios.post(baseUrl,values);
-            }
+            const response =  await axios.get(baseUrl, {params: {email: `${values?.email}`}});
+
+            /* THe problem is that I need to make double click to the button to sent or received the alert message
+            Its not the sing up button, is not the post function
+            Looks like the problem comes from the whole function itself, maybe a second or some slide difference between 
+            validateData and post Data that i havent noticed */
+            response.data.length === 1
+            ? alert(`Sorry the email: ${values.email} was already used`)
+            : await axios.post(baseUrl, values)
+            // : alert( 'Here i must do push')
+
          }catch(err){
              console.log(err.message);
          }
     }
 
-    //-- Function to handle the constant input Change
+    //-- Function to handle the constant input changes
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>): void => {
         const {name, value} = e.currentTarget;
         setValue({
@@ -66,13 +64,12 @@ const useForm = (validate:any) => {
     const handleLogin =  ():void=> {
         setErrors(validate(values, 'login'));
     }
-    //-- Function to handle the errors in the inputs of Login
-    const handleRegister = (e:React.FormEvent<HTMLFormElement> ):void=> {
-        e.preventDefault();
-        setErrors(validate(values, 'register'));
-        postData(values?.email, values?.password, values);
 
+    //-- Function to handle the errors in the inputs of Register
+    const handleRegister = ( ):void=> {
+        setErrors(validate(values, 'register'));
     }
+
     //-- Returned objects from the Hook
     return{
         values,
@@ -81,6 +78,7 @@ const useForm = (validate:any) => {
         handleRegister,
         errors,
         validateData,
+        postData,
     }
 }
 

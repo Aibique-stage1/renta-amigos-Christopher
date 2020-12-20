@@ -1,9 +1,12 @@
 import  {useState} from 'react';
 import introState from './introState';
 
+//-- Hook builds Transition Context with reducers
 const useIntroTransition = () =>{
+    //-- Variables & hooks
     const [state, setState] = useState(introState);
 
+    //-- Function with logic to slide to Left
     const slideToLeft = () => {
         setState({
             ...state,
@@ -15,6 +18,8 @@ const useIntroTransition = () =>{
         })
 
     }
+
+    //-- Function with logic to slide to Right
     const slideToRight = () => {
         setState({
             ...state,
@@ -25,6 +30,7 @@ const useIntroTransition = () =>{
         })
     }
 
+    //-- Object returned by the hook
     return {
         state,
         slideToLeft,

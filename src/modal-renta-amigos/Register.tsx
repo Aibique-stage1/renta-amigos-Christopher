@@ -1,6 +1,8 @@
 import React,{useContext} from 'react';
 import useForm from './hooks/useForm';
 import validate from './validateInfo';
+
+import { ModuleObject} from '../typed/app'; 
 import {
     ModalContainer, 
     RegisterModal, 
@@ -11,35 +13,39 @@ import {
     ButtonRegister} from './styled';
 import IntroContext from './context/IntroContext';
 
-interface MoveObject {
-    login?: string | undefined;
-    register?: string | undefined;
-}
-interface StateObject {
-    move?: MoveObject; 
-}
-interface ModuleObject {
-    state?: StateObject;
-    slideToLeft?: ()=> void;
-    slideToRight?: () => void;
-}
 
-// style={{left: '100%'}}
+//-- Register Component
 const Register = () => {  
+
+    //-- Variables & hooks
     const {state, slideToRight} = useContext<ModuleObject>(IntroContext);
     const move = state?.move;
-    const {values, handleChange, handleRegister, errors} = useForm(validate);
+    const {values, handleChange, handleRegister, errors, postData} = useForm(validate);
 
+    //-- Functions & handlers
     const handleSlideLogin = () => {
         slideToRight &&
         slideToRight();
     }
+    const handleSubmit = (e:React.FormEvent<HTMLFormElement> ) => {
+        e.preventDefault();
+        if(!errors){
+            return handleRegister();
+        }
+        if(Object.keys(errors).length === 1){
+            return postData();
+        }else{
+            return handleRegister();
+        }
+    }
+
+    //-- Render of the component
     return (
         <>
         <ModalContainer style={{ left: `${move?.register}`}}>
         <span style={{position: 'absolute', top: '5px', right: '5px', cursor: 'pointer', fontSize: '16px', textDecoration: 'none', color: 'black', fontWeight: 'bold'}}>X</span>
         <RegisterModal>
-        <FormRegister onSubmit={handleRegister}>
+        <FormRegister onSubmit={handleSubmit}>
                 <InputBox>
                 Email
                 <input  value={values.email} onChange={(e) => handleChange(e)} className="username" type="text" name="email" placeholder="email"/>

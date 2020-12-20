@@ -1,14 +1,11 @@
-interface ValuesRegisterObject {
-    username?: string;
-    email?: string;
-    password?: string;
-    secondPassword?: string;
-}
+import { ValuesRegisterObject } from '../typed/app';
 
+//-- Function to validate values from Inputs
 export default function validateInfo(values: ValuesRegisterObject, type: string):any {
+    //-- Variables
     let errors: ValuesRegisterObject = {};
     
-    //-- This are the errors returned if you are in Login
+    //-- Errors from the Login
     if(type === 'login'){
         if(!values?.username?.trim()){
             errors.username = "Username require"
@@ -21,7 +18,7 @@ export default function validateInfo(values: ValuesRegisterObject, type: string)
         return errors;
     }
 
-    //-- This are the errors it should send if you are in Register
+    //-- Errors from the Register
     if(type === 'register'){
         if(!values?.username?.trim()){
                 errors.username = "Username require"
@@ -45,6 +42,4 @@ export default function validateInfo(values: ValuesRegisterObject, type: string)
         }
         return errors;
     }
-
-    
 }
